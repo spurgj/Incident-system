@@ -15,13 +15,15 @@ import java.sql.*;
 import java.io.*; 
 
 
-//
+//Allows the user to document a meeting.
 public class NewMDServlet extends HttpServlet implements Servlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
 		try {
 		
+		//Gets 	
+			
 		String responsible = request.getParameter("responsible");
 		String violations = request.getParameter("violations");
 		String notes = request.getParameter("notes");
