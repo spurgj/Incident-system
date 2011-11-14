@@ -11,7 +11,7 @@
 	<form action="/Incidents/NewMDServlet" method="post">
 		<h1>Document Meeting</h1>
 		Meeting Notes: <br /><textarea rows="20" cols="50" name="notes"></textarea><br />
-		Date/Time: <br /><input type="text" name="datetime" value="yyyy-mm-dd hh:mm" /><br />
+		<input TYPE=checkbox name=offenses VALUE=1> Apples <BR>
 		<input type="submit" value="Submit Meeting Documentation" />
 	</form>
 </div>
