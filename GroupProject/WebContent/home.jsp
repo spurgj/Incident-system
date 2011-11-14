@@ -49,7 +49,7 @@ try {
 //Create string of connection url within specified format with machine
 //name, port number and database name. Here machine name id localhost and 
 //database name is conductCommittee. 
-String connectionURL = "jdbc:mysql://127.0.0.1:3306/incident";
+String connectionURL = "jdbc:mysql://csel.cs.colorado.edu:3306/incident";
 // declare a connection by using Connection interface
 Connection connection = null;
 // declare object of Statement interface that is used for executing sql statements. 
@@ -60,7 +60,7 @@ ResultSet rs = null;
 Class.forName("com.mysql.jdbc.Driver").newInstance();
 //Create a connection by using getConnection() method that takes parameters 
 //of string type connection url, user name and password to connect to database.
-connection = DriverManager.getConnection(connectionURL, "incident", "smile");
+connection = DriverManager.getConnection(connectionURL, "spurgeoj_admin", "dog123");
 //createStatement() is used for create statement object that is used for 
 //sending sql statements to the specified database. */
 statement = connection.createStatement();

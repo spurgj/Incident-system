@@ -19,4 +19,14 @@
     <servlet-name>NewIRServlet</servlet-name>
     <url-pattern>/NewIRServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>NewMDServlet</display-name>
+    <servlet-name>NewMDServlet</servlet-name>
+    <servlet-class>csci3308_incidents.NewMDServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NewMDServlet</servlet-name>
+    <url-pattern>/NewMDServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

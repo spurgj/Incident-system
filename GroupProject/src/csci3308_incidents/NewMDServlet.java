@@ -16,21 +16,19 @@ import java.io.*;
 
 
 //
-public class NewIRServlet extends HttpServlet implements Servlet {
+public class NewMDServlet extends HttpServlet implements Servlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
 		try {
 		
-		String summary = request.getParameter("summary");
-		String parties = request.getParameter("parties");
-		String time = request.getParameter("datetime");
+		String responsible = request.getParameter("responsible");
+		String violations = request.getParameter("violations");
+		String notes = request.getParameter("notes");
 		String incID = request.getParameter("incID");
 		
 		//
-		if(time.contentEquals("yyyy-mm-dd hh:mm"))
-			time = "2001-01-01 00:00";
-		String connectionURL = "jdbc:mysql://127.0.0.1:3306/spurgeoj_incident";
+		String connectionURL = "jdbc:mysql://csel.cs.colorado.edu:3306/spurgeoj_incident";
 		// declare a connection by using Connection interface
 		Connection connection = null;
 		// declare object of Statement interface that is used for executing sql statements. 
@@ -41,17 +39,17 @@ public class NewIRServlet extends HttpServlet implements Servlet {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		//Create a connection by using getConnection() method that takes parameters 
 		//of string type connection url, user name and password to connect to database.
-		connection = DriverManager.getConnection(connectionURL, "incident", "smile");
+		connection = DriverManager.getConnection(connectionURL, "spurgeoj_admin", "dog123");
 		//createStatement() is used for create statement object that is used for 
 		//sending sql statements to the specified database. */
 		statement = connection.createStatement();
 		// sql query to retrieve values from the secified table.
 		
-		String sql = "INSERT INTO incidentReports (incidentTimeDate, incidentParties, incidentSummary, incidentID) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO meetingDocs (meetingResp, meetingViolation, meetingNotes, incidentID) VALUES (?, ?, ?, ?)";
 		PreparedStatement stmt = connection.prepareStatement(sql);
-		stmt.setString(1, time);
-		stmt.setString(2, parties);
-		stmt.setString(3, summary);
+		stmt.setString(1, responsible);
+		stmt.setString(2, violations);
+		stmt.setString(3, notes);
 		stmt.setString(4, incID);
 		stmt.executeUpdate();
 		
@@ -65,5 +63,3 @@ public class NewIRServlet extends HttpServlet implements Servlet {
 		}
 	}
 }
-
-		
