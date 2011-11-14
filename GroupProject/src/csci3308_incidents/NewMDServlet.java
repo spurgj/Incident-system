@@ -22,12 +22,10 @@ public class NewMDServlet extends HttpServlet implements Servlet {
 		
 		try {
 		
-		//Gets 	
-			
-		String responsible = request.getParameter("responsible");
-		String violations = request.getParameter("violations");
+		//Gets the offenses the party was found responsible for, as well as the notes of the meeting.
+		
+		String[] offenses = request.getParameter("offenses")	
 		String notes = request.getParameter("notes");
-		String incID = request.getParameter("incID");
 		
 		//
 		String connectionURL = "jdbc:mysql://csel.cs.colorado.edu:3306/spurgeoj_incident";
@@ -47,12 +45,10 @@ public class NewMDServlet extends HttpServlet implements Servlet {
 		statement = connection.createStatement();
 		// sql query to retrieve values from the secified table.
 		
-		String sql = "INSERT INTO meetingDocs (meetingResp, meetingViolation, meetingNotes, incidentID) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO meetingDocs (meetingNotes, meetingOffenses) VALUES (?, ?)";
 		PreparedStatement stmt = connection.prepareStatement(sql);
-		stmt.setString(1, responsible);
-		stmt.setString(2, violations);
-		stmt.setString(3, notes);
-		stmt.setString(4, incID);
+		stmt.setString(1, offenses);
+		stmt.setString(2, notes);
 		stmt.executeUpdate();
 		
 		getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);

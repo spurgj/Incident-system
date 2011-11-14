@@ -8,7 +8,7 @@
 </head>
 <body>
 <div id="newIR" style="font-family: serif; font-size: 12px;">
-	<form action="/Incidents/NewIRServlet" method="post">
+	<form action="/GroupProject/NewIRServlet" method="post">
 		<h1>Submitting New Incident</h1>
 		Summary: <br /><textarea rows="20" cols="50" name="summary"></textarea><br />
 		Date/time: <br /><input type="text" name="datetime" value="yyyy-mm-dd hh:mm" /><br />
