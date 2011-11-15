@@ -87,14 +87,14 @@
 				//sending sql statements to the specified database. */
 				statement = connection.createStatement();
 				// sql query to retrieve values from the secified table.
-				String QueryString = "SELECT A.incidentTimeDate, B.party from incidentReports A LEFT JOIN incidentParties B ON A.incID = B.incID WHERE B.scheduled = 'N'";
+				String QueryString = "SELECT A.incidentTimeDate, B.party, A.incID from incidentReports A LEFT JOIN incidentParties B ON A.incID = B.incID WHERE B.scheduled = 'N'";
 				rs = statement.executeQuery(QueryString);
 				
 				int i = 0;
 				while(rs.next())
 				{
 				%>
-								<tr class="tr<% out.print(i++ % 2 == 1? 1: 2); %>"><td><% out.print(rs.getString(1)); %></td><td><% out.print(rs.getString(2)); %><a href="#">(schedule)</a></td><td><a href="#">IR</a></td></tr>
+								<tr class="tr<% out.print(i++ % 2 == 1? 1: 2); %>"><td><% out.print(rs.getString(1)); %></td><td><% out.print(rs.getString(2)); %><a href="#">(schedule)</a></td><td><a href="viewIR.jsp?incID=<% out.print(rs.getString(3)); %>">IR</a></td></tr>
 				<%
 				}
 				// close all the connections.
