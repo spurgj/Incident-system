@@ -29,4 +29,14 @@
     <servlet-name>NewMDServlet</servlet-name>
     <url-pattern>/NewMDServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>NewMSServlet</display-name>
+    <servlet-name>NewMSServlet</servlet-name>
+    <servlet-class>csci3308_incidents.NewMSServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NewMSServlet</servlet-name>
+    <url-pattern>/NewMSServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

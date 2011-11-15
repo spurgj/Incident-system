@@ -25,14 +25,10 @@ public class NewMSServlet extends HttpServlet implements Servlet {
 		
 		//Gets the date/time, length, content, and associated incident ID for a new meeting.	
 			
-		String time = request.getParameter("datetime");
-		String length = request.getParameter("length");
-		String incID = request.getParameter("incID");
 		
 		//Sets a default time in if none is specified.
-		if(time.contentEquals("yyyy-mm-dd hh:mm"))
-			time = "2001-01-01 00:00";
-		String connectionURL = "jdbc:mysql://csel.cs.colorado.edu:3306/incident";
+
+		String connectionURL = "jdbc:mysql://localhost:3306/incident";
 		// declare a connection by using Connection interface
 		Connection connection = null;
 		// declare object of Statement interface that is used for executing sql statements. 
@@ -51,14 +47,18 @@ public class NewMSServlet extends HttpServlet implements Servlet {
 		
 		//Creates a new meeting in the database.
 		
-		String sql = "INSERT INTO meetingSchedule (meetingTimeDate, meetingLength, incidentID) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO coMeetings (meetingTimeDate, partyID) VALUES (?, ?)";
 		PreparedStatement stmt = connection.prepareStatement(sql);
-		stmt.setString(1, time);
-		stmt.setString(2, length);
-		stmt.setString(3, incID);
+		stmt.setString(1, "2011-" + request.getParameter("month") + "-" + request.getParameter("day") + " " + request.getParameter("hour") + "-" + request.getParameter("minute"));
+		stmt.setString(2, request.getParameter("partyID"));
 		stmt.executeUpdate();
 		
-		getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
+		sql = "UPDATE incidentParties SET scheduled = 'Y' WHERE partyID = ?";
+		stmt = connection.prepareStatement(sql);
+		stmt.setString(1, request.getParameter("partyID"));
+		stmt.executeUpdate();		
+		
+		getServletContext().getRequestDispatcher("/irList.jsp").forward(request, response);
 		} catch(Exception ex)
 		{
 			 response.setContentType("text/html");

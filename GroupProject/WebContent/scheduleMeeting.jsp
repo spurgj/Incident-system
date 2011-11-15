@@ -64,7 +64,7 @@
 	<div class="content">
 	<h2>Schedule Conduct Meeting</h2>
 
-			<form action="" method="post">
+			<form action="/GroupProject/NewMSServlet" method="post">
 			<table cellspacing="0" cellpadding="0" border="1" >       
 				<tr class="tr_header"><td>Party</td><td>&nbsp;</td><td>Date/time</td></tr>
 				<%
@@ -86,7 +86,7 @@
 					connection = DriverManager.getConnection(connectionURL, "incident", "smile");
 					//createStatement() is used for create statement object that is used for 
 					//sending sql statements to the specified database. */
-					String QueryString = "SELECT incID, party FROM incidentParties WHERE partyID = ? AND scheduled = 'N'";
+					String QueryString = "SELECT incID, party, partyID FROM incidentParties WHERE partyID = ? AND scheduled = 'N'";
 					statement = connection.prepareStatement(QueryString);
 					statement.setString(1, request.getParameter("partyID"));
 					// sql query to retrieve values from the secified table.
@@ -180,6 +180,7 @@
 		  <option value="0">0</option>
 		  <option value="30">30</option>
 		</select>
+		<input type="hidden" name="partyID" value="<% out.print(rs.getString(3)); %>" />
 								</td>
 								</tr>
 				<%
