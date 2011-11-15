@@ -24,12 +24,8 @@ public class NewIRServlet extends HttpServlet implements Servlet {
 		
 		String summary = request.getParameter("summary");
 		String parties = request.getParameter("parties");
-		String time = request.getParameter("datetime");
-		String incID = request.getParameter("incID");
 		
 		//
-		if(time.contentEquals("yyyy-mm-dd hh:mm"))
-			time = "2001-01-01 00:00";
 		String connectionURL = "jdbc:mysql://127.0.0.1:3306/incident";
 		// declare a connection by using Connection interface
 		Connection connection = null;
@@ -47,12 +43,11 @@ public class NewIRServlet extends HttpServlet implements Servlet {
 		statement = connection.createStatement();
 		// sql query to retrieve values from the secified table.
 		
-		String sql = "INSERT INTO incidentReports (incidentTimeDate, incidentParties, incidentSummary, incidentID) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO incidentReports (incidentTimeDate, incidentParties, incidentSummary) VALUES (?, ?, ?)";
 		PreparedStatement stmt = connection.prepareStatement(sql);
-		stmt.setString(1, time);
+		stmt.setString(1, "2011-" + request.getParameter("month") + "-" + request.getParameter("day") + "-" + request.getParameter("minute"));
 		stmt.setString(2, parties);
 		stmt.setString(3, summary);
-		stmt.setString(4, incID);
 		stmt.executeUpdate();
 		
 		getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
@@ -61,7 +56,7 @@ public class NewIRServlet extends HttpServlet implements Servlet {
 			 response.setContentType("text/html");
 		     PrintWriter out = response.getWriter();
 			 out.println(ex.getMessage());
-			 out.println("<a href=\"/Incidents/NewIRServlet\">Back to Submit IR</a>");
+			 out.println("<a href=\"/GroupProject/NewIRServlet\">Back to Submit IR</a>");
 		}
 	}
 }
