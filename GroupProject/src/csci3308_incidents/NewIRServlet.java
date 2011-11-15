@@ -30,7 +30,7 @@ public class NewIRServlet extends HttpServlet implements Servlet {
 		//
 		if(time.contentEquals("yyyy-mm-dd hh:mm"))
 			time = "2001-01-01 00:00";
-		String connectionURL = "jdbc:mysql://127.0.0.1:3306/spurgeoj_incident";
+		String connectionURL = "jdbc:mysql://127.0.0.1:3306/incident";
 		// declare a connection by using Connection interface
 		Connection connection = null;
 		// declare object of Statement interface that is used for executing sql statements. 

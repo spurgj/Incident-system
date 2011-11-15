@@ -39,7 +39,7 @@ public class NewMDServlet extends HttpServlet implements Servlet {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		//Create a connection by using getConnection() method that takes parameters 
 		//of string type connection url, user name and password to connect to database.
-		connection = DriverManager.getConnection(connectionURL, "spurgeoj_admin", "dog123");
+		connection = DriverManager.getConnection(connectionURL, "incident", "smile");
 		//createStatement() is used for create statement object that is used for 
 		//sending sql statements to the specified database. */
 		statement = connection.createStatement();
