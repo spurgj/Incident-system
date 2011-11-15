@@ -8,7 +8,7 @@
 </head>
 <body>
 <div id="newMS" style="font-family: serif; font-size: 12px;">
-	<form action="/Incidents/NewMSServlet" method="post">
+	<form action="/GroupProject/NewMSServlet" method="post">
 		<h1>Scheduling New Meeting</h1>
 		Content: <br /><textarea rows="20" cols="50" name="content"></textarea><br />
 		Date/Time: <br /><input type="text" name="datetime" value="yyyy-mm-dd hh:mm" /><br />

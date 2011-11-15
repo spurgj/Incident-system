@@ -8,7 +8,7 @@
 </head>
 <body>
 <div id="newMD" style="font-family: serif; font-size: 12px;">
-	<form action="/Incidents/NewMDServlet" method="post">
+	<form action="/GroupProject/NewMDServlet" method="post">
 		<h1>Document Meeting</h1>
 		Meeting Notes: <br /><textarea rows="20" cols="50" name="notes"></textarea><br />
 		Date/Time: <br /><input type="text" name="datetime" value="yyyy-mm-dd hh:mm" /><br />
