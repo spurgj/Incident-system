@@ -25,6 +25,7 @@ public class NewIRServlet extends HttpServlet implements Servlet {
 		String summary = request.getParameter("summary");
 		String parties = request.getParameter("parties");
 		
+		
 		//
 		String connectionURL = "jdbc:mysql://127.0.0.1:3306/incident";
 		// declare a connection by using Connection interface
@@ -43,12 +44,28 @@ public class NewIRServlet extends HttpServlet implements Servlet {
 		statement = connection.createStatement();
 		// sql query to retrieve values from the secified table.
 		
-		String sql = "INSERT INTO incidentReports (incidentTimeDate, incidentParties, incidentSummary) VALUES (?, ?, ?)";
-		PreparedStatement stmt = connection.prepareStatement(sql);
-		stmt.setString(1, "2011-" + request.getParameter("month") + "-" + request.getParameter("day") + "-" + request.getParameter("minute"));
-		stmt.setString(2, parties);
-		stmt.setString(3, summary);
+		String sql = "INSERT INTO incidentReports (incidentTimeDate, incidentSummary) VALUES (?, ?)";
+		PreparedStatement stmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+		stmt.setString(1, "2011-" + request.getParameter("month") + "-" + request.getParameter("day") + " " + request.getParameter("hour") + "-" + request.getParameter("minute"));
+		stmt.setString(2, summary);
 		stmt.executeUpdate();
+		ResultSet get_ai = stmt.getGeneratedKeys();
+		int incID = 0;
+		if(get_ai.next())
+		{
+			incID = get_ai.getInt(1);
+		}
+		
+		sql = "INSERT INTO incidentParties (incID, party) VALUES (?,?)";
+		
+		String[] party = parties.split("\n");
+		for(int i = 0; i < party.length; i++)
+		{
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, incID);
+			stmt.setString(2, party[i]);
+			stmt.executeUpdate();
+		}
 		
 		getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
 		} catch(Exception ex)

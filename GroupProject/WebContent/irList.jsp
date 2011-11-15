@@ -4,13 +4,11 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.io.*" %> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<!--  which doctype declaration do we want? XHTML strict will make the tags behave nicely with other languages, but the tags are harder to write.
-recommend HTML transitional as it is the easiest to write tags for -->
 <html>
 <head>
 
 	<title>Incident-System Home</title>
-	<link href="styles.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="styles.css" rel="stylesheet" type="text/css" media="screen"></link>
 	
 
         <script type="text/javascript" src="http://www.colorado.edu/ssi/jquery/jquery-latest.pack.js"></script>
@@ -29,7 +27,7 @@ recommend HTML transitional as it is the easiest to write tags for -->
 			}
 			.tr_header
 			{
-				background-color: #FFFFCC;
+				background-color: #4F4E35;
 				font-family: serif;
 				font-size: 15px;
 				font-weight: bold;
@@ -65,59 +63,50 @@ recommend HTML transitional as it is the easiest to write tags for -->
 	
 	<div class="content">
 	<h2>JA Calendar</h2>
-			     
 
-	 	<br>
-	 	<br>
-	 	<br>
-	 	
-
-    
-	
-	
-<table cellspacing="0" cellpadding="0" border="1" >       
-<tr class="tr_header"><td>Incident time/date</td><td>Incident parties</td></tr>
-<%
-try {
-//Create string of connection url within specified format with machine
-//name, port number and database name. Here machine name id localhost and 
-//database name is conductCommittee. 
-String connectionURL = "jdbc:mysql://localhost:3306/incident";
-// declare a connection by using Connection interface
-Connection connection = null;
-// declare object of Statement interface that is used for executing sql statements. 
-Statement statement = null;
-// declare a resultset that uses as a table for output data from tha table.
-ResultSet rs = null;
-// Load JBBC driver "com.mysql.jdbc.Driver"
-Class.forName("com.mysql.jdbc.Driver").newInstance();
-//Create a connection by using getConnection() method that takes parameters 
-//of string type connection url, user name and password to connect to database.
-connection = DriverManager.getConnection(connectionURL, "incident", "smile");
-//createStatement() is used for create statement object that is used for 
-//sending sql statements to the specified database. */
-statement = connection.createStatement();
-// sql query to retrieve values from the secified table.
-String QueryString = "SELECT * from incidentReports";
-rs = statement.executeQuery(QueryString);
-
-int i = 0;
-while(rs.next())
-{
-%>
-				<tr class="tr<% out.print(i++ % 2 == 1? 1: 2); %>"><td><% out.print(rs.getString(2)); %></td><td><% out.print(rs.getString(3)); %> <a href="#">(currently scheduled)</a></td><td><a href="#">IR</a></td><td></td></tr>
-<%
-}
-// close all the connections.
-rs.close();
-statement.close();
-connection.close();
-} catch (SQLException ex) {
-out.println("Unable to connect to database: " + ex.getMessage());
-}
-%>
-</table>	
-	
+			<table cellspacing="0" cellpadding="0" border="1" >       
+				<tr class="tr_header"><td>Incident time/date</td><td>Incident parties</td><td>&nbsp;</td></tr>
+				<%
+				try {
+				//Create string of connection url within specified format with machine
+				//name, port number and database name. Here machine name id localhost and 
+				//database name is conductCommittee. 
+				String connectionURL = "jdbc:mysql://localhost:3306/incident";
+				// declare a connection by using Connection interface
+				Connection connection = null;
+				// declare object of Statement interface that is used for executing sql statements. 
+				Statement statement = null;
+				// declare a resultset that uses as a table for output data from tha table.
+				ResultSet rs = null;
+				// Load JBBC driver "com.mysql.jdbc.Driver"
+				Class.forName("com.mysql.jdbc.Driver").newInstance();
+				//Create a connection by using getConnection() method that takes parameters 
+				//of string type connection url, user name and password to connect to database.
+				connection = DriverManager.getConnection(connectionURL, "incident", "smile");
+				//createStatement() is used for create statement object that is used for 
+				//sending sql statements to the specified database. */
+				statement = connection.createStatement();
+				// sql query to retrieve values from the secified table.
+				String QueryString = "SELECT A.incidentTimeDate, B.party from incidentReports A LEFT JOIN incidentParties B ON A.incID = B.incID WHERE B.scheduled = 'N'";
+				rs = statement.executeQuery(QueryString);
+				
+				int i = 0;
+				while(rs.next())
+				{
+				%>
+								<tr class="tr<% out.print(i++ % 2 == 1? 1: 2); %>"><td><% out.print(rs.getString(1)); %></td><td><% out.print(rs.getString(2)); %><a href="#">(schedule)</a></td><td><a href="#">IR</a></td></tr>
+				<%
+				}
+				// close all the connections.
+				rs.close();
+				statement.close();
+				connection.close();
+				} catch (SQLException ex) {
+				out.println("Unable to connect to database: " + ex.getMessage());
+				}
+				%>
+			</table>	
+			
 		<div class="footer">
 			<p>cool footer content</p>
 		</div>
