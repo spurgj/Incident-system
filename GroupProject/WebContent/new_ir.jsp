@@ -123,7 +123,7 @@ recommend HTML transitional as it is the easiest to write tags for -->
 		  <option value="20">20</option>
 		  <option value="21">21</option>
 		  <option value="22">22</option>
-		  <option value="">23</option>
+		  <option value="23">23</option>
 		</select>
 	 	<select name="minute">
 		  <option value="0">Minute</option>
