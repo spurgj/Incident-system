@@ -27,7 +27,7 @@ public class NewMSServlet extends HttpServlet implements Servlet {
 			
 		String time = request.getParameter("datetime");
 		String length = request.getParameter("length");
-		String content = request.getParameter("content");
+		String incID = request.getParameter("incID");
 		
 		//Sets a default time in if none is specified.
 		if(time.contentEquals("yyyy-mm-dd hh:mm"))
@@ -51,11 +51,11 @@ public class NewMSServlet extends HttpServlet implements Servlet {
 		
 		//Creates a new meeting in the database.
 		
-		String sql = "INSERT INTO meetingSchedule (meetingTimeDate, meetingLength, meetingContent) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO meetingSchedule (meetingTimeDate, meetingLength, incidentID) VALUES (?, ?, ?)";
 		PreparedStatement stmt = connection.prepareStatement(sql);
 		stmt.setString(1, time);
 		stmt.setString(2, length);
-		stmt.setString(3, content);
+		stmt.setString(3, incID);
 		stmt.executeUpdate();
 		
 		getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);

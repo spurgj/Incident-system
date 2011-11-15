@@ -23,8 +23,9 @@ public class NewMDServlet extends HttpServlet implements Servlet {
 		try {
 		
 		//Gets the offenses the party was found responsible for, as well as the notes of the meeting.
-		
-		String[] offenses = request.getParameter("offenses")	
+
+		String[] offenses = request.getParameterValues("offenses");
+
 		String notes = request.getParameter("notes");
 		
 		//
@@ -46,6 +47,8 @@ public class NewMDServlet extends HttpServlet implements Servlet {
 		// sql query to retrieve values from the secified table.
 		
 		String sql = "INSERT INTO meetingDocs (meetingNotes, meetingOffenses) VALUES (?, ?)";
+
+
 		PreparedStatement stmt = connection.prepareStatement(sql);
 		stmt.setString(1, offenses);
 		stmt.setString(2, notes);
