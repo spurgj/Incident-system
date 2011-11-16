@@ -53,16 +53,14 @@ recommend HTML transitional as it is the easiest to write tags for -->
 		
 		<ul>
 			<a href="home.jsp"><li class="topNav">Home</li></a>
-			<a href="irLogin.jsp"><li>Login</li></a>
-			<a href="irSubmission.jsp"><li>IR Submission</li></a>
-			<a href="irSearch.jsp"><li>IR Search</li></a>
-			<a href=""><li>Resources for Conduct Officers</li></a>
+			<a href="new_ir.jsp"><li>IR Submission</li></a>
+			<a href="home.jsp"><li>Resources for Conduct Officers</li></a>
 			<ul>
-			      <a href="COCalendar.jsp"><li>Calendar</li></a>
+			      <a href="meetingSchedule.jsp"><li>Calendar</li></a>
 			</ul>
-			<a href=""><li>Resources for JAs</li></a>
+			<a href="home.jsp"><li>Resources for JAs</li></a>
 			<ul>
-			      <a href="JACalendar.jsp"><li class="bottomNav">Submitted IRs</li></a>
+			      <a href="irList.jsp"><li class="bottomNav">Submitted IRs</li></a>
 			</ul>
 		</ul>
 			
