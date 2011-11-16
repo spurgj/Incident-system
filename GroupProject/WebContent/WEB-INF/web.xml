@@ -39,4 +39,14 @@
     <servlet-name>NewMSServlet</servlet-name>
     <url-pattern>/NewMSServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CancelServlet</display-name>
+    <servlet-name>CancelServlet</servlet-name>
+    <servlet-class>csci3308_incidents.CancelServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CancelServlet</servlet-name>
+    <url-pattern>/CancelServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

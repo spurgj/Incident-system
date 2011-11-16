@@ -2,13 +2,21 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.sql.*" %>
-<%@ page import="java.io.*" %> 
+<%@ page import="java.io.*" %>
+<%
+
+if(request.getParameter("partyID") == null)
+{
+	getServletContext().getRequestDispatcher("/meetingSchedule.jsp").forward(request, response);
+}
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!--  which doctype declaration do we want? XHTML strict will make the tags behave nicely with other languages, but the tags are harder to write.
+recommend HTML transitional as it is the easiest to write tags for -->
 <head>
 
 	<title>Incident-System Home</title>
-	<link href="styles.css" rel="stylesheet" type="text/css" media="screen"></link>
+	<link href="styles.css" rel="stylesheet" type="text/css" media="screen" />
 	
 
         <script type="text/javascript" src="http://www.colorado.edu/ssi/jquery/jquery-latest.pack.js"></script>
@@ -62,10 +70,21 @@
 	</div>
 	
 	<div class="content">
-	<h2>JA Calendar</h2>
-			<form action="/GroupProject/CancelServlet" method="post" />
-			<table cellspacing="0" cellpadding="0" border="1" >       
-				<tr class="tr_header"><td>Incident time/date</td><td>Incident parties</td><td>Cancel</td></tr>
+	<h2>Conduct Officer Meeting Notes</h2>
+			     
+
+	<p></p>
+    <p></p>
+	
+		<form action="/GroupProject/NewMDServlet" method="post">	
+		What Charges was the student found responsible for? 
+
+		<br>
+				<table cellspacing="0" cellpadding="0" border="1">
+				<tr class="tr_header">
+					<td>Charge</td>
+					<td>Responsible</td>
+				</tr>
 				<%
 				try {
 				//Create string of connection url within specified format with machine
@@ -87,7 +106,7 @@
 				//sending sql statements to the specified database. */
 				statement = connection.createStatement();
 				// sql query to retrieve values from the secified table.
-				String QueryString = "SELECT meetingTimeDate, party, A.partyID FROM coMeetings A LEFT JOIN incidentParties B ON A.partyID = B.partyID WHERE meetingTimeDate >= NOW() AND meetingTimeDate <= DATE_ADD(NOW(), INTERVAL 30 DAY) AND status = 'A'";
+				String QueryString = "SELECT offenseID, offenseName FROM offenses ORDER BY offenseID ASC";
 				rs = statement.executeQuery(QueryString);
 				
 				int i = 0;
@@ -95,9 +114,9 @@
 				{
 				%>
 								<tr class="tr<% out.print(i++ % 2 == 1? 1: 2); %>">
-								<td><% out.print(rs.getString(1)); %></td>
-								<td><a href="meetingDoc.jsp?partyID=<% out.print(rs.getString(3)); %>"><% out.print(rs.getString(2)); %></a></td>
-								<td><input type="checkbox" name="cancel" value="<% out.print(rs.getString(3)); %>" /></td>								
+								<td><% out.print(rs.getString(2)); %></td>
+								<td><input type="checkbox" name="responsible" value="<% out.print(rs.getString(1)); %>" /></td>								
+								</tr>
 				<% }
 				// close all the connections.
 				rs.close();
@@ -107,18 +126,35 @@
 				out.println("Unable to connect to database: " + ex.getMessage());
 				}
 				%>
-			</table>	
-			<input type="submit" value="Cancel Meetings" />
-			</form>
-		<div class="footer">
-			<p>cool footer content</p>
-		</div>
+				</table>
+		<br>
+		Which Sanctions will be imposed?
+		<br>
+		<textarea rows="5" cols="50">
+		</textarea>
+
+		<br>
+		Notes
+		<br>
+		<textarea name="notes" rows="5" cols="50">
+		</textarea>
+		<br>
+		<input type="hidden" name="partyID" value="<% out.print(Integer.parseInt(request.getParameter("partyID"))); %>" />
+		<input type="submit" value="Submit" />
+		</form>
+		<p></p>
+		<a href="COCalendar.jsp">Go Back to View Meetings</a>
+	
+		
 	</div>
 	
 
 </div>
+
+                
+       
 			
 		
 </body>
-</html>
+
 

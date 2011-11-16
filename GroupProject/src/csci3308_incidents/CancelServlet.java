@@ -14,22 +14,20 @@ import java.util.List;
 import java.sql.*;
 import java.io.*; 
 
-
-//Allows the user to document a meeting.
-public class NewMDServlet extends HttpServlet implements Servlet {
+//Commit Test
+//
+public class CancelServlet extends HttpServlet implements Servlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
 		try {
 		
-		//Gets the offenses the party was found responsible for, as well as the notes of the meeting.
-
-		String[] offenses = request.getParameterValues("offenses");
-
-		String notes = request.getParameter("notes");
+		String summary = request.getParameter("summary");
+		String parties = request.getParameter("parties");
+		
 		
 		//
-		String connectionURL = "jdbc:mysql://localhost:3306/incident";
+		String connectionURL = "jdbc:mysql://127.0.0.1:3306/incident";
 		// declare a connection by using Connection interface
 		Connection connection = null;
 		// declare object of Statement interface that is used for executing sql statements. 
@@ -46,30 +44,22 @@ public class NewMDServlet extends HttpServlet implements Servlet {
 		statement = connection.createStatement();
 		// sql query to retrieve values from the secified table.
 		
-		String sql = "INSERT INTO meetingDocs (partyID, meetingNotes) VALUES (?, ?)";
-
-
-		PreparedStatement stmt = connection.prepareStatement(sql);
-		stmt.setString(1, request.getParameter("partyID"));
-		stmt.setString(2, request.getParameter("notes"));
-		stmt.executeUpdate();
+		String sql = "UPDATE coMeetings SET status = 'C' WHERE partyID = ?";
+		PreparedStatement stmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+		String updateParty = "UPDATE incidentParties SET scheduled = 'N' WHERE partyID = ?";
+		PreparedStatement updatestmt = connection.prepareStatement(updateParty, PreparedStatement.RETURN_GENERATED_KEYS);
 		
-		sql = "INSERT INTO offenseResponsibility (partyID, offenseID) VALUES (?, ?)";
+		String[] results = request.getParameterValues("cancel");
 		int i = 0;
-		String[] responsibility = request.getParameterValues("responsible");
-		stmt = connection.prepareStatement(sql);
-		while(i<responsibility.length)
+		while(i < results.length)
 		{
-		stmt.setString(1, request.getParameter("partyID"));
-		stmt.setString(2, responsibility[i]);
-		stmt.executeUpdate();
-		i++;
+			stmt.setString(1, results[i]);
+			stmt.executeUpdate();
+			
+			updatestmt.setString(1, results[i]);
+			updatestmt.executeUpdate();
+			i++;
 		}
-		
-		sql = "UPDATE coMeetings SET status = 'H' WHERE partyID = ?";
-		stmt = connection.prepareStatement(sql);
-		stmt.setString(1, request.getParameter("partyID"));
-		stmt.executeUpdate();
 		
 		getServletContext().getRequestDispatcher("/meetingSchedule.jsp").forward(request, response);
 		} catch(Exception ex)
@@ -77,7 +67,9 @@ public class NewMDServlet extends HttpServlet implements Servlet {
 			 response.setContentType("text/html");
 		     PrintWriter out = response.getWriter();
 			 out.println(ex.getMessage());
-			 out.println("<a href=\"/Incidents/NewIRServlet\">Back to Submit IR</a>");
+			 out.println("<a href=\"/GroupProject/NewIRServlet\">Back to Submit IR</a>");
 		}
 	}
 }
+
+		
