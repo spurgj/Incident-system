@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 14, 2011 at 10:50 PM
+-- Generation Time: Nov 15, 2011 at 09:02 PM
 -- Server version: 5.1.49
 -- PHP Version: 5.3.3-1ubuntu9.6
 
@@ -29,9 +29,9 @@ CREATE TABLE IF NOT EXISTS `coMeetings` (
   `meetID` int(11) NOT NULL AUTO_INCREMENT,
   `meetingTimeDate` datetime NOT NULL,
   `partyID` int(11) NOT NULL,
-  `status` enum('A','C') NOT NULL DEFAULT 'A',
+  `status` enum('A','C','H') NOT NULL DEFAULT 'A',
   PRIMARY KEY (`meetID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `coMeetings`
@@ -41,7 +41,9 @@ INSERT INTO `coMeetings` (`meetID`, `meetingTimeDate`, `partyID`, `status`) VALU
 (1, '2011-02-01 02:30:00', 1, 'A'),
 (2, '2011-04-03 03:30:00', 1, 'A'),
 (3, '2011-03-03 02:30:00', 1, 'A'),
-(4, '2011-12-06 00:00:00', 2, 'A');
+(4, '2011-12-06 00:00:00', 2, 'H'),
+(5, '2011-12-04 01:00:00', 2, 'H'),
+(6, '2011-09-02 01:30:00', 5, 'A');
 
 -- --------------------------------------------------------
 
@@ -55,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `incidentParties` (
   `party` varchar(500) NOT NULL,
   `scheduled` enum('Y','N') NOT NULL DEFAULT 'N',
   PRIMARY KEY (`partyID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `incidentParties`
@@ -65,7 +67,11 @@ INSERT INTO `incidentParties` (`partyID`, `incID`, `party`, `scheduled`) VALUES
 (1, 17, 'anthony', 'Y'),
 (2, 17, 'james', 'Y'),
 (3, 17, 'asdf', 'N'),
-(4, 17, 'asdfhh', 'N');
+(4, 17, 'asdfhh', 'N'),
+(5, 18, 'anthony pfaff\r', 'Y'),
+(6, 18, 'eric holton\r', 'N'),
+(7, 18, 'christopher mar\r', 'N'),
+(8, 18, 'justin spurgeon', 'N');
 
 -- --------------------------------------------------------
 
@@ -78,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `incidentReports` (
   `incidentTimeDate` datetime NOT NULL,
   `incidentSummary` varchar(7000) NOT NULL,
   PRIMARY KEY (`incID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `incidentReports`
@@ -100,7 +106,8 @@ INSERT INTO `incidentReports` (`incID`, `incidentTimeDate`, `incidentSummary`) V
 (14, '2011-09-19 04:15:00', 'sfdgdsfgdsfg'),
 (15, '2011-09-19 04:15:00', 'sfdgdsfgdsfg'),
 (16, '2011-09-19 04:15:00', 'sfdgdsfgdsfg'),
-(17, '2011-09-19 04:15:00', 'sfdgdsfgdsfg');
+(17, '2011-09-19 04:15:00', 'sfdgdsfgdsfg'),
+(18, '2011-11-02 00:30:00', 'jadsjfajdsfjadsfjadsf');
 
 -- --------------------------------------------------------
 
@@ -111,14 +118,20 @@ INSERT INTO `incidentReports` (`incID`, `incidentTimeDate`, `incidentSummary`) V
 CREATE TABLE IF NOT EXISTS `meetingDocs` (
   `docID` int(11) NOT NULL AUTO_INCREMENT,
   `meetingNotes` varchar(5000) NOT NULL,
-  `meetID` int(11) NOT NULL,
+  `partyID` int(11) NOT NULL,
   PRIMARY KEY (`docID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `meetingDocs`
 --
 
+INSERT INTO `meetingDocs` (`docID`, `meetingNotes`, `partyID`) VALUES
+(1, 'asdfasdfasdfsadf', 2),
+(2, '		', 2),
+(3, 'adsfasdfadsf', 2),
+(4, 'asdfasdfasdf		', 2),
+(5, 'asdfasdfasdf		', 2);
 
 -- --------------------------------------------------------
 
@@ -128,15 +141,25 @@ CREATE TABLE IF NOT EXISTS `meetingDocs` (
 
 CREATE TABLE IF NOT EXISTS `offenseResponsibility` (
   `orID` int(11) NOT NULL AUTO_INCREMENT,
-  `docID` int(11) NOT NULL,
+  `partyID` int(11) NOT NULL,
   `offenseID` int(11) NOT NULL,
   PRIMARY KEY (`orID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `offenseResponsibility`
 --
 
+INSERT INTO `offenseResponsibility` (`orID`, `partyID`, `offenseID`) VALUES
+(1, 2, 1),
+(2, 2, 2),
+(3, 2, 3),
+(4, 2, 1),
+(5, 2, 2),
+(6, 2, 3),
+(7, 2, 1),
+(8, 2, 2),
+(9, 2, 3);
 
 -- --------------------------------------------------------
 
