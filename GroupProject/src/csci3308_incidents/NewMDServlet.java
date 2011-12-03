@@ -70,6 +70,26 @@ public class NewMDServlet extends HttpServlet implements Servlet {
 		i++;
 		}
 		
+		
+		if(request.getParameterValues("sanctions") != null) 
+		{
+				
+			
+			sql = "INSERT INTO partySanctions (partyID, sanctionID, dueDate) VALUES (?, ?, ?)";
+			stmt = connection.prepareStatement(sql);
+			
+			String sanctions[] = request.getParameterValues("sanctions");
+			
+			
+			for(i = 0;i<sanctions.length;i++)
+			{
+				stmt.setString(1, request.getParameter("partyID"));
+				stmt.setString(2, sanctions[i]);
+				stmt.setString(3, "2011-" + request.getParameter("sanction_" + sanctions[i] + "_month") + "-" + request.getParameter("sanction_" + sanctions[i] + "_day"));
+				stmt.executeUpdate();
+			}
+		}
+		
 		sql = "UPDATE coMeetings SET status = 'H' WHERE partyID = ?";
 		stmt = connection.prepareStatement(sql);
 		stmt.setString(1, request.getParameter("partyID"));

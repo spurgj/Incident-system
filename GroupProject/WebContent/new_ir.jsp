@@ -43,6 +43,7 @@ recommend HTML transitional as it is the easiest to write tags for -->
 			<a href="home.jsp"><li>Resources for Conduct Officers</li></a>
 			<ul>
 			      <a href="meetingSchedule.jsp"><li>Calendar</li></a>
+			      <a href="holdsReport.jsp"><li>Holds Report</li></a>
 			      <a href="users.jsp"><li>Manage Users</li></a>
 			</ul>
 			<% } %>

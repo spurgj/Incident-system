@@ -4,7 +4,7 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.io.*" %> 
 <%
-	if(request.getSession(true).getAttribute("userRole") == null || !request.getSession(true).getAttribute("userRole").equals("JA"))
+	if(request.getSession(true).getAttribute("userRole") == null || !request.getSession(true).getAttribute("userRole").equals("CO"))
 	{
 		getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
 		return;
@@ -82,11 +82,9 @@
 	</div>
 	
 	<div class="content">
-	<h2>Schedule Conduct Meeting</h2>
-
-			<form action="/GroupProject/NewMSServlet" method="post">
+	<h2>Holds to issue</h2>
 			<table cellspacing="0" cellpadding="0" border="1" >       
-				<tr class="tr_header"><td>Party</td><td>&nbsp;</td><td>Date/time</td></tr>
+				<tr class="tr_header"><td>Party ID</td><td>Party</td><td>Sanction</td><td>Sanction Due Date</td></tr>
 				<%
 				try {
 					//Create string of connection url within specified format with machine
@@ -106,9 +104,9 @@
 					connection = DriverManager.getConnection(connectionURL, "incident", "smile");
 					//createStatement() is used for create statement object that is used for 
 					//sending sql statements to the specified database. */
-					String QueryString = "SELECT incID, party, partyID FROM incidentParties WHERE partyID = ? AND scheduled = 'N'";
+					String QueryString = "SELECT partySanctions.partyID, party, sanctionName, dueDate FROM partySanctions LEFT JOIN sanctions on partySanctions.sanctionID = sanctions.sanctionID LEFT JOIN incidentParties ON partySanctions.partyID = incidentParties.partyID WHERE partySanctions.completed = 'N' AND partySanctions.dueDate < NOW() AND sanctions.sanctionType = 'E'";
 					statement = connection.prepareStatement(QueryString);
-					statement.setString(1, request.getParameter("partyID"));
+
 					// sql query to retrieve values from the secified table.
 
 					rs = statement.executeQuery();
@@ -117,96 +115,16 @@
 				if(rs.next())
 				{
 				%>
-								<tr class="tr1"><td><% out.print(rs.getString(2)); %></td><td><a href="viewIR.jsp?incID=<% out.print(rs.getString(1)); %>">IR</a></td>
-								<td>
-		<select name="month">
-		  <option value="1">Month</option>
-		  <option value="1">January</option>
-		  <option value="2">February</option>
-		  <option value="3">March</option>
-		  <option value="4">April</option>
-		  <option value="5">May</option>
-		  <option value="6">June</option>
-		  <option value="7">July</option>
-		  <option value="8">August</option>
-		  <option value="9">September</option>
-		  <option value="10">October</option>
-		  <option value="11">November</option>
-		  <option value="12">December</option>
-		</select>
-		<select name="day">
-		  <option value="01">Day</option>
-		  <option value="01">1</option>
-		  <option value="02">2</option>
-		  <option value="03">3</option>
-		  <option value="04">4</option>
-		  <option value="05">5</option>
-		  <option value="06">6</option>
-		  <option value="07">7</option>
-		  <option value="08">8</option>
-		  <option value="09">9</option>
-		  <option value="10">10</option>
-		  <option value="11">11</option>
-		  <option value="12">12</option>
-		  <option value="13">13</option>
-		  <option value="14">14</option>
-		  <option value="15">15</option>
-		  <option value="16">16</option>
-		  <option value="17">17</option>
-		  <option value="18">18</option>
-		  <option value="19">19</option>
-		  <option value="20">20</option>
-		  <option value="21">21</option>
-		  <option value="22">22</option>
-		  <option value="23">23</option>
-		  <option value="24">24</option>
-		  <option value="25">25</option>
-		  <option value="26">26</option>
-		  <option value="27">27</option>
-		  <option value="28">28</option>
-		  <option value="29">29</option>
-		  <option value="30">30</option>
-		  <option value="31">31</option>
-		</select>	
-		<select name="hour">
-		  <option value="0">Hour</option>
-		  <option value="00">00</option>
-		  <option value="01">01</option>
-		  <option value="02">02</option>
-		  <option value="03">03</option>
-		  <option value="04">04</option>
-		  <option value="05">05</option>
-		  <option value="06">06</option>
-		  <option value="07">07</option>
-		  <option value="08">08</option>
-		  <option value="09">09</option>
-		  <option value="10">10</option>
-		  <option value="11">11</option>
-		  <option value="12">12</option>
-		  <option value="13">13</option>
-		  <option value="14">14</option>
-		  <option value="15">15</option>
-		  <option value="16">16</option>
-		  <option value="17">17</option>
-		  <option value="18">18</option>
-		  <option value="19">19</option>
-		  <option value="20">20</option>
-		  <option value="21">21</option>
-		  <option value="22">22</option>
-		  <option value="23">23</option>
-		</select>
-	 	<select name="minute">
-		  <option value="0">Minute</option>
-		  <option value="0">0</option>
-		  <option value="30">30</option>
-		</select>
-		<input type="hidden" name="partyID" value="<% out.print(rs.getString(3)); %>" />
-								</td>
+								<tr class="tr<% out.print(i++ % 2 == 1? 1: 2); %>">
+									<td><% out.print(rs.getString(1)); %></td>
+									<td><% out.print(rs.getString(2)); %></td>
+									<td><% out.print(rs.getString(3)); %></td>
+									<td><% out.print(rs.getString(4)); %></td>
 								</tr>
 				<%
 				}
 				else {
-					out.print("No unscheduled parties found with that ID");
+					out.print("No students with late sanctions.");
 				}
 				// close all the connections.
 				rs.close();
@@ -217,8 +135,6 @@
 				}
 				%>
 			</table>
-				<input type="submit" value="Schedule" />	
-			</form>
 		<div class="footer">
 			<p>cool footer content</p>
 		</div>
