@@ -88,26 +88,33 @@
 				<tr class="tr_header"><td>User ID</td><td>User Login</td><td>User Role</td><td>Delete</td></tr>
 				<%
 				try {
-					//Create string of connection url within specified format with machine
-					//name, port number and database name. Here machine name id localhost and 
-					//database name is conductCommittee. 
+					//the string "connectionURL" is the URL for the database.
+					// the machine name, database name, and port number are specified.
+					// port: 3306, database name: incident, machine name: localhost
 					String connectionURL = "jdbc:mysql://localhost:3306/incident";
-					// declare a connection by using Connection interface
+					
+					// declares a connection to the database using JDBC class "Connection"
 					Connection connection = null;
-					// declare object of Statement interface that is used for executing sql statements. 
+					
+					// declares a statement for executing sql using JDBC class "PreparedStatement"
 					PreparedStatement statement = null;
-					// declare a resultset that uses as a table for output data from tha table.
+					
+					// declares a table for representing data in the database using JDBC class "ResultSet"
 					ResultSet rs = null;
-					// Load JBBC driver "com.mysql.jdbc.Driver"
+					
+					// this line calls and loads the JDBC driver at "com.mysql.jdbc.Driver"
 					Class.forName("com.mysql.jdbc.Driver").newInstance();
-					//Create a connection by using getConnection() method that takes parameters 
-					//of string type connection url, user name and password to connect to database.
+					
+					
+					// sets the 'connection' variable using JDBC class DriverManager's method "getConnection".
+					// "getConnection" takes a string that provides a URI to the database, a username, and a password.
+					// 'connectionURL' acts as the URI to the database, the username is 'incident', and the password is 'smile'
 					connection = DriverManager.getConnection(connectionURL, "incident", "smile");
-					//createStatement() is used for create statement object that is used for 
-					//sending sql statements to the specified database. */
+
 					String QueryString = "SELECT userId, userLogin, userRole FROM users";
 					statement = connection.prepareStatement(QueryString);
-					// sql query to retrieve values from the secified table.
+					
+					// executes the SQL declarations stored in 'statement'
 					rs = statement.executeQuery();
 				
 				int i = 0;
@@ -129,7 +136,7 @@
 					<% 
 					i++;
 				}
-				// close all the connections.
+				// executes the close() method to close 'rs', 'statement', and 'connection'
 				rs.close();
 				statement.close();
 				connection.close();
