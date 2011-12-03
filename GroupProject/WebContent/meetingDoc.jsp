@@ -162,7 +162,7 @@ recommend HTML transitional as it is the easiest to write tags for -->
 		<input type="submit" value="Submit" />
 		</form>
 		<p></p>
-		<a href="COCalendar.jsp">Go Back to View Meetings</a>
+		<a href="meetingSchedule.jsp">Go Back to View Meetings</a>
 	
 		
 	</div>
