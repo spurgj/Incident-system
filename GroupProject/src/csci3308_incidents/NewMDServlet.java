@@ -21,7 +21,11 @@ public class NewMDServlet extends HttpServlet implements Servlet {
 			throws ServletException, IOException {
 		
 		try {
-		
+			if(request.getSession(true).getAttribute("userRole") == null || !request.getSession(true).getAttribute("userRole").equals("CO"))
+			{
+				getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
+				return;
+			}
 		//Gets the offenses the party was found responsible for, as well as the notes of the meeting.
 
 		String[] offenses = request.getParameterValues("offenses");

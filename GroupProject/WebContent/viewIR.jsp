@@ -3,6 +3,13 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.io.*" %> 
+<%
+	if(request.getSession(true).getAttribute("userId") == null)
+	{
+		getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
+		return;
+	}
+%> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>

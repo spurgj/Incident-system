@@ -23,6 +23,7 @@ public class LoginServlet extends HttpServlet implements Servlet {
 		
 		try {
 		
+			
 		String userLogin = request.getParameter("userLogin");
 		String password = request.getParameter("password");
 		

@@ -22,7 +22,11 @@ public class UpdatePasswordServlet extends HttpServlet implements Servlet {
 			throws ServletException, IOException {
 		
 		try {
-		
+			if(request.getSession(true).getAttribute("userId") == null)
+			{
+				getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
+				return;
+			}
 
 		
 		

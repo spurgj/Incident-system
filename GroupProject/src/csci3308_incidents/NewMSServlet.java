@@ -22,7 +22,11 @@ public class NewMSServlet extends HttpServlet implements Servlet {
 			throws ServletException, IOException {
 		
 		try {
-		
+			if(request.getSession(true).getAttribute("userRole") == null || !request.getSession(true).getAttribute("userRole").equals("JA"))
+			{
+				getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
+				return;
+			}
 		//Gets the date/time, length, content, and associated incident ID for a new meeting.	
 			
 		

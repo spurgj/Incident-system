@@ -22,6 +22,12 @@ public class CancelServlet extends HttpServlet implements Servlet {
 		
 		try {
 		
+
+		if(request.getSession(true).getAttribute("userRole") == null || !request.getSession(true).getAttribute("userRole").equals("CO") || !request.getSession(true).getAttribute("userRole").equals("JA"))
+		{
+			getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
+			return;
+		}
 		String summary = request.getParameter("summary");
 		String parties = request.getParameter("parties");
 		

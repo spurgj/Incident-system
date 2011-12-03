@@ -23,6 +23,12 @@ public class UpdateUsersServlet extends HttpServlet implements Servlet {
 		
 		try {
 		
+		if(request.getSession(true).getAttribute("userRole") == null || !request.getSession(true).getAttribute("userRole").equals("CO"))
+		{
+			getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
+			return;
+		}
+			
 		Enumeration<String> users = request.getParameterNames();
 		String user;
 		
@@ -59,19 +65,21 @@ public class UpdateUsersServlet extends HttpServlet implements Servlet {
 				stmt.executeUpdate();
 			}
 		}
-		
-		String delete[] = request.getParameterValues("delete");
-
-		sql = "DELETE FROM users WHERE userId = ?";
-		stmt = connection.prepareStatement(sql);
-		
-		int i = 0;
-		for(i = 0; i<delete.length; i++)
+		if(request.getParameterValues("delete") != null)
 		{
-			stmt.setString(1, delete[i]);
-			stmt.executeUpdate();
+			String delete[] = request.getParameterValues("delete");
+	
+			sql = "DELETE FROM users WHERE userId = ?";
+			stmt = connection.prepareStatement(sql);
+			
+	
+			int i = 0;
+			for(i = 0; i<delete.length; i++)
+			{
+				stmt.setString(1, delete[i]);
+				stmt.executeUpdate();
+			}
 		}
-		
 		
 		getServletContext().getRequestDispatcher("/users.jsp").forward(request, response);
 		} catch(Exception ex)
@@ -79,6 +87,7 @@ public class UpdateUsersServlet extends HttpServlet implements Servlet {
 			 response.setContentType("text/html");
 		     PrintWriter out = response.getWriter();
 			 out.println(ex.getMessage());
+			 ex.printStackTrace(out);
 			 out.println("<a href=\"/GroupProject/NewIRServlet\">Back to Submit IR</a>");
 		}
 	}
