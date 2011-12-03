@@ -122,7 +122,7 @@
 				<input type="submit" value="Update" />	
 			</form>
 			<br /><br />
-			<form action="/GroupProject/NewUserServlet">
+			<form action="/GroupProject/NewUserServlet" method="post">
 				<table cellspacing="0" cellpadding="0" border="1">
 					<tr class="tr_header">
 						<td>New User Name</td>

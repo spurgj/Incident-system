@@ -23,8 +23,7 @@ public class NewUserServlet extends HttpServlet implements Servlet {
 		
 		try {
 		
-		Enumeration<String> users = request.getParameterNames();
-		String user;
+
 		
 		
 		//
@@ -45,33 +44,14 @@ public class NewUserServlet extends HttpServlet implements Servlet {
 		statement = connection.createStatement();
 		// sql query to retrieve values from the secified table.
 		
-		String sql = "UPDATE users SET userRole = ? WHERE userId = ?";
+		String sql = "INSERT INTO users (userLogin, userPasswordHash, userRole) VALUES (?, SHA(?), ?)";
 		PreparedStatement stmt = connection.prepareStatement(sql);
 		
 
-		while(users.hasMoreElements())
-		{
-			user = users.nextElement();
-			if(user != "delete")
-			{
-				stmt.setString(1, request.getParameter(user));
-				stmt.setString(2, user);
-				stmt.executeUpdate();
-			}
-		}
-		
-		String delete[] = request.getParameterValues("delete");
-
-		sql = "DELETE FROM users WHERE userId = ?";
-		stmt = connection.prepareStatement(sql);
-		
-		int i = 0;
-		for(i = 0; i<delete.length; i++)
-		{
-			stmt.setString(1, delete[i]);
-			stmt.executeUpdate();
-		}
-		
+		stmt.setString(1, request.getParameter("username"));
+		stmt.setString(2, request.getParameter("password"));
+		stmt.setString(3, request.getParameter("role"));
+		stmt.executeUpdate();
 		
 		getServletContext().getRequestDispatcher("/users.jsp").forward(request, response);
 		} catch(Exception ex)

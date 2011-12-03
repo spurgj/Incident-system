@@ -34,7 +34,7 @@ recommend HTML transitional as it is the easiest to write tags for -->
 	<h2>Incident Reporting System Login</h2>
 	
 		<form action="/GroupProject/LoginServlet" method="post">
-		Username: <input type="text" name="userId" size="20" /><br />
+		Username: <input type="text" name="userLogin" size="20" /><br />
 		Password: <input type="password" name="password" size="20" /><br />
 		<input type="submit" value="Login" />
 		</form>
