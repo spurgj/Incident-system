@@ -76,6 +76,7 @@ recommend HTML transitional as it is the easiest to write tags for -->
 			<a href="home.jsp"><li>Resources for JAs</li></a>
 			<ul>
 			      <a href="irList.jsp"><li class="bottomNav">Submitted IRs</li></a>
+			      <a href="sanctionEntry.jsp"><li class="bottomNav">Sanction Entry</li></a>
 			</ul>
 			<% }  %>
 			      <a href="logout.jsp"><li class="bottomNav">Logout</li></a>
