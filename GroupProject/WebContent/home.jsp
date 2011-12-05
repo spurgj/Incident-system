@@ -43,6 +43,7 @@ recommend HTML transitional as it is the easiest to write tags for -->
 			<a href="home.jsp"><li>Resources for Conduct Officers</li></a>
 			<ul>
 			      <a href="meetingSchedule.jsp"><li>Calendar</li></a>
+			      <a href="holdsReport.jsp"><li>Holds Report</li></a>
 			      <a href="users.jsp"><li>Manage Users</li></a>
 			</ul>
 			<% } %>
@@ -50,6 +51,7 @@ recommend HTML transitional as it is the easiest to write tags for -->
 			<a href="home.jsp"><li>Resources for JAs</li></a>
 			<ul>
 			      <a href="irList.jsp"><li class="bottomNav">Submitted IRs</li></a>
+			      <a href="sanctionEntry.jsp"><li class="bottomNav">Sanction Entry</li></a>
 			</ul>
 			<% }  %>
 			      <a href="logout.jsp"><li class="bottomNav">Logout</li></a>
@@ -61,7 +63,8 @@ recommend HTML transitional as it is the easiest to write tags for -->
 		</ul>
 			
 			
-	</div>	</div>
+	</div>
+	</div>
 	
 	<div class="content">
 	<h2>Incident Reporting System Home</h2>

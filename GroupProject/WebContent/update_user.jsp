@@ -9,7 +9,7 @@
 		getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
 		return;
 	}
-%> io.*" %> 
+%> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
@@ -60,6 +60,7 @@
 			<a href="home.jsp"><li>Resources for Conduct Officers</li></a>
 			<ul>
 			      <a href="meetingSchedule.jsp"><li>Calendar</li></a>
+			      <a href="holdsReport.jsp"><li>Holds Report</li></a>
 			      <a href="users.jsp"><li>Manage Users</li></a>
 			</ul>
 			<% } %>
@@ -67,6 +68,7 @@
 			<a href="home.jsp"><li>Resources for JAs</li></a>
 			<ul>
 			      <a href="irList.jsp"><li class="bottomNav">Submitted IRs</li></a>
+			      <a href="sanctionEntry.jsp"><li class="bottomNav">Sanction Entry</li></a>
 			</ul>
 			<% }  %>
 			      <a href="logout.jsp"><li class="bottomNav">Logout</li></a>

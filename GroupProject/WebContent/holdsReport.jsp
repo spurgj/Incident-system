@@ -83,62 +83,51 @@
 	</div>
 	
 	<div class="content">
-	<h2>Manage Users</h2>
-
-			<form action="/GroupProject/UpdateUsersServlet" method="post">
+	<h2>Holds to issue</h2>
 			<table cellspacing="0" cellpadding="0" border="1" >       
-				<tr class="tr_header"><td>User ID</td><td>User Login</td><td>User Role</td><td>Delete</td></tr>
+				<tr class="tr_header"><td>Party ID</td><td>Party</td><td>Sanction</td><td>Sanction Due Date</td></tr>
 				<%
 				try {
-					//the string "connectionURL" is the URL for the database.
-					// the machine name, database name, and port number are specified.
-					// port: 3306, database name: incident, machine name: localhost
+					//Create string of connection url within specified format with machine
+					//name, port number and database name. Here machine name id localhost and 
+					//database name is conductCommittee. 
 					String connectionURL = "jdbc:mysql://localhost:3306/incident";
-					
-					// declares a connection to the database using JDBC class "Connection"
+					// declare a connection by using Connection interface
 					Connection connection = null;
-					
-					// declares a statement for executing sql using JDBC class "PreparedStatement"
+					// declare object of Statement interface that is used for executing sql statements. 
 					PreparedStatement statement = null;
-					
-					// declares a table for representing data in the database using JDBC class "ResultSet"
+					// declare a resultset that uses as a table for output data from tha table.
 					ResultSet rs = null;
-					
-					// this line calls and loads the JDBC driver at "com.mysql.jdbc.Driver"
+					// Load JBBC driver "com.mysql.jdbc.Driver"
 					Class.forName("com.mysql.jdbc.Driver").newInstance();
-					
-					
-					// sets the 'connection' variable using JDBC class DriverManager's method "getConnection".
-					// "getConnection" takes a string that provides a URI to the database, a username, and a password.
-					// 'connectionURL' acts as the URI to the database, the username is 'incident', and the password is 'smile'
+					//Create a connection by using getConnection() method that takes parameters 
+					//of string type connection url, user name and password to connect to database.
 					connection = DriverManager.getConnection(connectionURL, "incident", "smile");
-
-					String QueryString = "SELECT userId, userLogin, userRole FROM users";
+					//createStatement() is used for create statement object that is used for 
+					//sending sql statements to the specified database. */
+					String QueryString = "SELECT partySanctions.partyID, party, sanctionName, dueDate FROM partySanctions LEFT JOIN sanctions on partySanctions.sanctionID = sanctions.sanctionID LEFT JOIN incidentParties ON partySanctions.partyID = incidentParties.partyID WHERE partySanctions.completed = 'N' AND partySanctions.dueDate < NOW() AND sanctions.sanctionType = 'E'";
 					statement = connection.prepareStatement(QueryString);
-					
-					// executes the SQL declarations stored in 'statement'
+
+					// sql query to retrieve values from the secified table.
+
 					rs = statement.executeQuery();
 				
 				int i = 0;
-				while(rs.next())
+				if(rs.next())
 				{
-					%>
-					<tr class="tr<% out.print(i++ % 2 == 1? 1: 2); %>">
-						<td><% out.print(rs.getString(1)); %></td>
-						<td><% out.print(rs.getString(2)); %></td>
-						<td>
-							<select name="<% out.print(rs.getString(1)); %>">
-								<option selected="selected" value="<% out.print(rs.getString(3)); %>"><% out.print(rs.getString(3)); %></option>
-								<option value="RA">RA</option>
-								<option value="JA">JA</option>
-								<option value="CO">CO</option>								
-						</td>
-						<td><input type="checkbox" name="delete" value="<% out.print(rs.getString(1)); %>" /></td>
-					</tr>
-					<% 
-					i++;
+				%>
+								<tr class="tr<% out.print(i++ % 2 == 1? 1: 2); %>">
+									<td><% out.print(rs.getString(1)); %></td>
+									<td><% out.print(rs.getString(2)); %></td>
+									<td><% out.print(rs.getString(3)); %></td>
+									<td><% out.print(rs.getString(4)); %></td>
+								</tr>
+				<%
 				}
-				// executes the close() method to close 'rs', 'statement', and 'connection'
+				else {
+					out.print("No students with late sanctions.");
+				}
+				// close all the connections.
 				rs.close();
 				statement.close();
 				connection.close();
@@ -147,24 +136,6 @@
 				}
 				%>
 			</table>
-				<input type="submit" value="Update" />	
-			</form>
-			<br /><br />
-			<form action="/GroupProject/NewUserServlet" method="post">
-				<table cellspacing="0" cellpadding="0" border="1">
-					<tr class="tr_header">
-						<td>New User Name</td>
-						<td>New User Pass</td>
-						<td>New User Role</td>
-					</tr>
-					<tr class="tr1">
-						<td><input type="text" name="username" size="15" /></td>
-						<td><input type="password" name="password" size="25" /></td>
-						<td><select name="role"><option value="RA">RA</option><option value="JA">JA</option><option value="CO">CO</option></select></td>
-					</tr>
-				</table>
-				<input type="submit" value="Create New User" />
-			</form>
 		<div class="footer">
 			<p>cool footer content</p>
 		</div>

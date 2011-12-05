@@ -68,6 +68,7 @@ recommend HTML transitional as it is the easiest to write tags for -->
 			<a href="home.jsp"><li>Resources for Conduct Officers</li></a>
 			<ul>
 			      <a href="meetingSchedule.jsp"><li>Calendar</li></a>
+			      <a href="holdsReport.jsp"><li>Holds Report</li></a>
 			      <a href="users.jsp"><li>Manage Users</li></a>
 			</ul>
 			<% } %>
@@ -75,6 +76,7 @@ recommend HTML transitional as it is the easiest to write tags for -->
 			<a href="home.jsp"><li>Resources for JAs</li></a>
 			<ul>
 			      <a href="irList.jsp"><li class="bottomNav">Submitted IRs</li></a>
+			      <a href="sanctionEntry.jsp"><li class="bottomNav">Sanction Entry</li></a>
 			</ul>
 			<% }  %>
 			      <a href="logout.jsp"><li class="bottomNav">Logout</li></a>
@@ -155,13 +157,113 @@ recommend HTML transitional as it is the easiest to write tags for -->
 				%>
 				</table>
 		<br>
-		Which Sanctions will be imposed?
-		<br>
-		<textarea rows="5" cols="50">
-		</textarea>
+
+		What are the sanctions? 
 
 		<br>
-		Notes
+				<table cellspacing="0" cellpadding="0" border="1">
+				<tr class="tr_header">
+					<td>Sanction</td>
+					<td>Selected?</td>
+					<td>Due Date</td>
+				</tr>
+				<%
+				try {
+					//Create string of connection url within specified format with machine
+					//name, port number and database name. Here machine name id localhost and 
+					//database name is conductCommittee. 
+					String connectionURL = "jdbc:mysql://localhost:3306/incident";
+					// declare a connection by using Connection interface
+					Connection connection = null;
+					// declare object of Statement interface that is used for executing sql statements. 
+					Statement statement = null;
+					// declare a resultset that uses as a table for output data from tha table.
+					ResultSet rs = null;
+					// Load JBBC driver "com.mysql.jdbc.Driver"
+					Class.forName("com.mysql.jdbc.Driver").newInstance();
+					//Create a connection by using getConnection() method that takes parameters 
+					//of string type connection url, user name and password to connect to database.
+					connection = DriverManager.getConnection(connectionURL, "incident", "smile");
+					//createStatement() is used for create statement object that is used for 
+					//sending sql statements to the specified database. */
+					
+					statement = connection.createStatement();
+					// sql query to retrieve values from the secified table.
+					String QueryString = "SELECT sanctionID, sanctionName FROM sanctions ORDER BY sanctionID ASC";
+					rs = statement.executeQuery(QueryString);
+					
+					int i = 0;
+					while(rs.next())
+					{
+					%>
+									<tr class="tr<% out.print(i++ % 2 == 1? 1: 2); %>">
+									<td><% out.print(rs.getString(2)); %></td>
+									<td><input type="checkbox" name="sanctions" value="<% out.print(rs.getString(1)); %>" /></td>
+									<td>
+										<select name="sanction_<% out.print(rs.getString(1)); %>_month">
+										  <option value="1">Month</option>
+										  <option value="1">January</option>
+										  <option value="2">February</option>
+										  <option value="3">March</option>
+										  <option value="4">April</option>
+										  <option value="5">May</option>
+										  <option value="6">June</option>
+										  <option value="7">July</option>
+										  <option value="8">August</option>
+										  <option value="9">September</option>
+										  <option value="10">October</option>
+										  <option value="11">November</option>
+										  <option value="12">December</option>
+										</select>
+										<select name="sanction_<% out.print(rs.getString(1)); %>_day">
+										  <option value="01">Day</option>
+										  <option value="01">1</option>
+										  <option value="02">2</option>
+										  <option value="03">3</option>
+										  <option value="04">4</option>
+										  <option value="05">5</option>
+										  <option value="06">6</option>
+										  <option value="07">7</option>
+										  <option value="08">8</option>
+										  <option value="09">9</option>
+										  <option value="10">10</option>
+										  <option value="11">11</option>
+										  <option value="12">12</option>
+										  <option value="13">13</option>
+										  <option value="14">14</option>
+										  <option value="15">15</option>
+										  <option value="16">16</option>
+										  <option value="17">17</option>
+										  <option value="18">18</option>
+										  <option value="19">19</option>
+										  <option value="20">20</option>
+										  <option value="21">21</option>
+										  <option value="22">22</option>
+										  <option value="23">23</option>
+										  <option value="24">24</option>
+										  <option value="25">25</option>
+										  <option value="26">26</option>
+										  <option value="27">27</option>
+										  <option value="28">28</option>
+										  <option value="29">29</option>
+										  <option value="30">30</option>
+										  <option value="31">31</option>
+										</select>	
+									</td>								
+									</tr>
+					<% }
+					// close all the connections.
+					rs.close();
+					statement.close();
+					connection.close();
+					} catch (SQLException ex) {
+					out.println("Unable to connect to database: " + ex.getMessage());
+					}
+					%>
+				</table>
+
+		<br>
+		Meeting/Sanction Notes
 		<br>
 		<textarea name="notes" rows="5" cols="50">
 		</textarea>
@@ -170,7 +272,7 @@ recommend HTML transitional as it is the easiest to write tags for -->
 		<input type="submit" value="Submit" />
 		</form>
 		<p></p>
-		<a href="COCalendar.jsp">Go Back to View Meetings</a>
+		<a href="meetingSchedule.jsp">Go Back to View Meetings</a>
 	
 		
 	</div>
